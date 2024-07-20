@@ -11,13 +11,21 @@ driver.get('https://www.redbus.in')
 driver.maximize_window()
 time.sleep(5)
 
-apsrtc = driver.find_elements(By.XPATH, '//*[@id="Carousel"]/div[1]')
-apsrtc[0].click()
-time.sleep(5)
 
-vijay_hyd = driver.find_elements(By.XPATH, '//*[@id="root"]/div/div[4]/div[2]/div[1]/a')
-vijay_hyd[0].click()
-time.sleep(10)
+bus_org = driver.find_elements(By.XPATH,"//div[@class = 'rtcCards']")
+
+
+def apsrtc():
+    apsrtc = driver.find_elements(By.XPATH, '//*[@id="Carousel"]/div[1]')
+    apsrtc[0].click()
+    time.sleep(5)
+
+    vijay_hyd = driver.find_elements(By.XPATH, '//*[@id="root"]/div/div[4]/div[2]/div[1]/a')
+    vijay_hyd[0].click()
+    time.sleep(10)
+    return ("successfully opened APSRTC")
+
+
 # data = {
 #     'service_provider':[],
 #     'busname':[],
