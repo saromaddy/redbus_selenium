@@ -1,19 +1,23 @@
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+import time
+import pandas as pd
+import sqlalchemy
+import json
 
-def browser_function():
-    chr_options = Options()
-    chr_options.add_experimental_option("detach", True) #Essential for not closing the browser
-    chr_driver = webdriver.Chrome(options=chr_options)
-    chr_driver.get("https://www.redbus.in")
-    try:
-        element = chr_driver.find_element(By.CLASS_NAME,"rtcName")
-        print("Element Found", element)
+def work():
+    driver = webdriver.Chrome()
 
-    except:
-        print ("Error")
+    driver.get('https://www.redbus.in/')
+    driver.maximize_window()
+    time.sleep(5)
 
-browser_function()
+    apsrtc = driver.find_elements(By.XPATH, "/html/body/section/div[2]/main/div[3]/div[3]/div[2]/div/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]")
+    apsrtc[0].click()
+    time.sleep(5)
+
+    driver.quit()
+
+work()
+work()
