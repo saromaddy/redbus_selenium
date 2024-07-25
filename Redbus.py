@@ -1,42 +1,37 @@
-from selenium import webdriver
-#required for controlling browser By and Keys
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-#required for headless part 1
-from selenium.webdriver.chrome.options import Options
-#New paradigm for path - required
-from selenium.webdriver.chrome.service import Service
+# importing libraries
+# import pandas as pd
+# import mysql.connector
+import streamlit as st
+# from streamlit_option_menu import option_menu
+# import plotly.express as px
+# import time
+import base64
 
-s = Service('/usr/local/bin/chromedriver')
+# Function to convert image to base64
+def get_base64_of_bin_file(bin_file):
+    with open(bin_file, 'rb') as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
 
-#set some selenium chrome options - optionsal
-#these options set your driver to run headless or not
+# Path to your image
+background_image_path = r'/Users/saro/Desktop/redbus_selenium/imgs/pexels-gabriel-peter-219375-696644.png'
 
-chromeOptions = Options()
-chromeOptions.add_argument("--start-maximized")
+# Convert the image to base64
+base64_image = get_base64_of_bin_file(background_image_path)
 
+# CSS to inject
+page_bg_img = f"""
+<style>
+[data-testid="stAppViewContainer"] {{
+    background-image: url("data:image/jpg;base64,{base64_image}");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}}
+</style>
+"""
 
-driver = webdriver.Chrome(service=s, options=chromeOptions)
-# driver.get("https://www.redbus.in")
+# Inject CSS with markdown
+st.markdown(page_bg_img, unsafe_allow_html=True)
 
-# def initialize_browser():
-#     driver.get("https://www.redbus.in")
-#     print("starting_Driver")
-#     content = driver.find_element(By.CLASS_NAME, "headerText")
-#     content.click()
-#     # content.send_keys(Keys.RETURN)
-#     while (True):
-#         pass
-
-# initialize_browser()
-
-
-try:
-    element = driver.find_element(By.CLASS_NAME, "rtcName")
-    print("Element found:", element)
-except:
-    print("Error:")
-    while (True):
-        pass
-
-driver.quit()
+st.header("Redbus Selenium Project")
