@@ -125,21 +125,42 @@ if menu_option == "Home":
                 Approach()
     if __name__ == "__main__":
         main()
+        
 if menu_option == "Project":
     lists=[]
     df=pd.read_csv("csv_files/df.csv")
+    df_orgin = pd.read_csv("origin.csv")
+    origin_list = []
+    df_destination = pd.read_csv("destination.csv")
+    destination_list = []
+    for j,k in df_orgin.iterrows():
+        origin_list.append(k['Origin'])
+    for l,m in df_destination.iterrows():
+        destination_list.append(m['Destination'])
+    origin_set = list(set(origin_list))
+    destination_set = list(set(destination_list))
     for i,r in df.iterrows():
         lists.append(r["Route_name"])
     
     range_values = st.slider("Select a range of values:", min_value=0, max_value=10000, value=(2000, 4075))
     st.write("You selected a range:", range_values)
     
+    origin = st.selectbox("select from", origin_set)
+    destination = st.selectbox("select from", destination_set)
+    # origin = st.selectbox("Select an option",df)
     conn = connect_mysql()
     my_cursor = conn.cursor()
-    query=f'''select * from bus_routes 
-            where Price Between {range_values[0]} and {range_values[1]} order by Price desc '''
-    my_cursor.execute(query)
-    out = my_cursor.fetchall()
-    df=pd.DataFrame(out,columns=["ID","Bus_name","Bus_type","Start_time","End_time","Total_duration",
-                                            "Price","Seats_Available","Ratings","Route_link","Route_name"])
-    st.write(df)
+    try:
+        query=f'''select Bus_name,Bus_type,Start_time,End_time,Total_duration,
+                    Price,Seats_Available,Ratings,Route_name,Origin,Destination from bus_routess 
+                where Origin = {'"'+origin+'"'} AND Destination = {'"'+destination+'"'} AND Price Between {range_values[0]} and {range_values[1]} order by Price desc'''
+        my_cursor.execute(query)
+        out = my_cursor.fetchall()
+        df=pd.DataFrame(out,columns=["Bus_name","Bus_type","Start_time","End_time","Total_duration",
+                                                "Price","Seats_Available","Ratings","Route_name","Origin","Destination"])
+        
+        st.write(df)
+        st.write(len(df))
+    except:
+        df
+
