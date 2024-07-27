@@ -206,4 +206,4 @@ if menu_option == "Project":
     try:
         df()
     except:
-        print ("Still Data not fetched")
+        st.write ("Still DataFrame not fetched")
