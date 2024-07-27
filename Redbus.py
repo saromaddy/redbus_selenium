@@ -142,25 +142,68 @@ if menu_option == "Project":
     for i,r in df.iterrows():
         lists.append(r["Route_name"])
     
-    range_values = st.slider("Select a range of values:", min_value=0, max_value=10000, value=(2000, 4075))
+    range_values = st.slider("Select a range of values:", min_value=0, max_value=10000, value=(0, 10000))
     st.write("You selected a range:", range_values)
     
-    origin = st.selectbox("select from", origin_set)
-    destination = st.selectbox("select from", destination_set)
+    origin = st.selectbox("Choose From", origin_set)
+    destination = st.selectbox("Choose To", destination_set)
     # origin = st.selectbox("Select an option",df)
     conn = connect_mysql()
     my_cursor = conn.cursor()
-    try:
-        query=f'''select Bus_name,Bus_type,Start_time,End_time,Total_duration,
-                    Price,Seats_Available,Ratings,Route_name,Origin,Destination from bus_routess 
-                where Origin = {'"'+origin+'"'} AND Destination = {'"'+destination+'"'} AND Price Between {range_values[0]} and {range_values[1]} order by Price desc'''
-        my_cursor.execute(query)
-        out = my_cursor.fetchall()
-        df=pd.DataFrame(out,columns=["Bus_name","Bus_type","Start_time","End_time","Total_duration",
-                                                "Price","Seats_Available","Ratings","Route_name","Origin","Destination"])
-        
-        st.write(df)
-        st.write(len(df))
-    except:
-        df
+    col1,col2,col3 = st.columns(3)
+    with col1:
+        if st.button("Apply for price sort"):
+            st.write(f'The values between {range_values[0]} and {range_values[1]}')
+            try:
+                query=f'''select Bus_name,Bus_type,Start_time,End_time,Total_duration,
+                            Price,Seats_Available,Ratings,Route_name,Origin,Destination from bus_routess 
+                        where Price Between {range_values[0]} and {range_values[1]} order by Price desc'''
+                my_cursor.execute(query)
+                out = my_cursor.fetchall()
+                def df():
+                    df=pd.DataFrame(out,columns=["Bus_name","Bus_type","Start_time","End_time","Total_duration",
+                                                            "Price","Seats_Available","Ratings","Route_name","Origin","Destination"])
+                    
+                    st.write(df)
+                    st.write(len(df))
+            except:
+                st.write("Error: Fetching the database")
+    
 
+    with col2:
+        if st.button ("Apply for route sort"):
+            try:
+                query=f'''select Bus_name,Bus_type,Start_time,End_time,Total_duration,
+                            Price,Seats_Available,Ratings,Route_name,Origin,Destination from bus_routess 
+                        where Origin = {'"'+origin+'"'} AND Destination = {'"'+destination+'"'}'''
+                my_cursor.execute(query)
+                out = my_cursor.fetchall()
+                def df():
+                    df=pd.DataFrame(out,columns=["Bus_name","Bus_type","Start_time","End_time","Total_duration",
+                                                            "Price","Seats_Available","Ratings","Route_name","Origin","Destination"])
+                    
+                    st.write(df)
+                    st.write(len(df))
+            except:
+                st.write("Error: Fetching the database")
+    with col3:
+        if st.button (" Apply for both route and price sort"):
+            try:
+                query=f'''select Bus_name,Bus_type,Start_time,End_time,Total_duration,
+                                Price,Seats_Available,Ratings,Route_name,Origin,Destination from bus_routess 
+                            where Origin = {'"'+origin+'"'} AND Destination = {'"'+destination+'"'} AND Price Between {range_values[0]} and {range_values[1]} order by Price desc'''
+                my_cursor.execute(query)
+                out = my_cursor.fetchall()
+                def df():
+                    df=pd.DataFrame(out,columns=["Bus_name","Bus_type","Start_time","End_time","Total_duration",
+                                                            "Price","Seats_Available","Ratings","Route_name","Origin","Destination"])
+                    
+                    st.write(df)
+                    st.write(len(df))
+            except:
+                st.write("Error: Fetching the database")
+
+    try:
+        df()
+    except:
+        print ("Still Data not fetched")
