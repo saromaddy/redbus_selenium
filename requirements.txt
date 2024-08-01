@@ -1,5 +1,5 @@
 pandas
 streamlit
-mysql.connector
-plotly.express
-base64
+mysql-connector-python
+plotly
+pybase64
