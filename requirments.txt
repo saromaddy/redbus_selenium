@@ -1,0 +1,5 @@
+pandas
+streamlit
+mysql.connector
+plotly.express
+base64
