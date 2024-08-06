@@ -99,6 +99,7 @@ def Approach():
 
 st.sidebar.header("Navigation Menu")
 menu_option = st.sidebar.radio("Choose a page:", ["Home", "Project"])
+
 if menu_option == "Home":
     def main():
         # Main layout
@@ -125,7 +126,7 @@ if menu_option == "Home":
                 Approach()
     if __name__ == "__main__":
         main()
-        
+#The project starts from here 
 if menu_option == "Project":
     lists=[]
     df=pd.read_csv("csv_files/df.csv")
@@ -204,6 +205,7 @@ if menu_option == "Project":
                 st.write("Error: Fetching the database")
 
     try:
+        #To display the count of the data fetched
         df()
     except:
         st.write ("Still DataFrame not fetched")
