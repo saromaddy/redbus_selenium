@@ -32,3 +32,6 @@ Project Requirements:
 5. MySQL
 6. Database Management
 7. Streamlit
+
+* kind note
+during the data scraping from redbus, the runtime was around 90+ mins. During this time, some of the data has not been scraped because of the internet issue. Those null values are removed and the remaining available data is then stored in MySQL for viewing in streamlit.
