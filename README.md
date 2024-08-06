@@ -1,4 +1,4 @@
-# redbus_selenium
+# Redbus_selenium
 
 Project Requirements:
 
@@ -11,7 +11,7 @@ Project Requirements:
 * basic html (for fetching the data from the website using selenium)
 * Good internet (to avoid null values or loss of data while the data is being scraped from redbus)
 
-Procedures followed
+# Procedures followed
 1. Scrap the www.redbus.in using selenium Webdriver
   1.a 10 State Bus SRTC needs to be scraped minimum
   1.b Along the routes, all the private bus details need to be scrapped
